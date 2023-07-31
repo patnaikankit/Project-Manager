@@ -4,13 +4,19 @@ import { ArrowRight } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import icon from '../../assets/designer.svg'
 
-export default function Home(){
+export default function Home(props){
     const navigate = useNavigate();
+    const isAuth = props.auth ?  true : false; 
     // there will be two cases when a user is either logged in or not
     // if the user is logged in he will be shown Manage else he will be shown lets get started
     // this will be achieved using states
     const handleClick = () => {
-        navigate('/login')
+        if(isAuth){
+            navigate('/account');
+        }
+        else{
+        navigate('/login');
+        }
     }
 
     return (
@@ -23,7 +29,8 @@ export default function Home(){
                 <p className={styles.tagline}>
                     One stop solution for all software development projects!
                 </p>
-                <button onClick={handleClick}>Let's Get Started <ArrowRight />{" "}</button>
+                <button onClick={handleClick}>{isAuth ? "Manage your Projects" : "Let's Get Started!"}{" "}
+            <ArrowRight />{" "}</button>
             </div>
             <div className={styles.right}>
                 <img src={icon} alt='icon'/>

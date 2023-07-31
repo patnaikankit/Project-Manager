@@ -7,7 +7,7 @@ export default function Form({label, isPassword, ...props}){
     const [visible, isvisible] = useState(false)
     return (
         <div className={styles.container}>
-        {/* label -  to provide the basic stub code for the form */}
+        {/* Render a <label> element if the 'label' prop is provided */}
           {label && <label>{label}</label>}
           <div className={styles.inputContainer}>
             <input
@@ -18,6 +18,7 @@ export default function Form({label, isPassword, ...props}){
             {/* only if the isPassword is enabled in the form then all the features of the password section will be applicable */}
             {isPassword && (
               <div className={styles.icon}>
+              {/* visible state is used here to used show password functionality */}
                 {visible ? (
                   <EyeOff onClick={() => isvisible((prev) => !prev)} />
                 ) : (
