@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { getStorage, ref } from "firebase/storage"
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import API_KEY from "./apikey.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,7 +32,7 @@ const updateUserDb = async (user, uid) => {
     return ;
   }
   const docRef = doc(db, "users", uid);
-  await setDoc(docRef, {...user});
+  await setDoc(docRef, {...user, uid});
 };
 
 // retriving user data from db
@@ -53,7 +53,7 @@ const storage = getStorage(app);
 // also showing the status of the upload 
 // if any issue arises then this function will handle it
 // this function will also provide a link to store it in storage function
-const uploadImage = (file, progress, downloadUrl, error) => {
+const uploadImage = (file, progressCB, downloadUrl, error) => {
   if(!file){
     error("File not found!");
     return ;
@@ -73,7 +73,27 @@ const uploadImage = (file, progress, downloadUrl, error) => {
     return;
   }
 
-  const storageRef = ref(storage, `images/${file.name}`)
+  const storageRef = ref(storage, `images/${file.name}`);
+
+  const task = uploadBytesResumable(storageRef, file);
+
+  // it is used for image upload
+  // first callback is used for state change between any percentage upload and display the status of the image upload
+  // second callback is called if any error occurs
+  // the last callback is called only when the complete file is uploaded
+  task.on('state_changed', (snapshot) => {
+    console.log(snapshot);
+    const progress = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+    progressCB(progress);
+    
+  }, (error) => {
+    errorCallback(error.message);
+  }, () => {
+    getDownloadURL(storageRef)
+      .then((url) => {
+        downloadUrl(url);
+      })
+  });
 }
 
-export { app as default, auth, db, updateUserDb, getUserDb };
+export { app as default, auth, db, updateUserDb, getUserDb, uploadImage };
