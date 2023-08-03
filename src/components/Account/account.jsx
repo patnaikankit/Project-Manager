@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./account.module.css"
 import Form from "../InputForm/form.jsx";
-import { Camera, LogOut, Edit2, Trash, GitHub, Paperclip } from "react-feather";
+import { Camera, LogOut, Edit2, Trash, GitHub, Paperclip, Linkedin } from "react-feather";
 import { signOut } from "firebase/auth";
 import { auth, uploadImage, updateUserDb } from "../../firebase";
 import { Navigate } from "react-router-dom";
+import ProjectForm from "./Project-Form/projectform.jsx";
 
 export default function Account(props){
     const userDetails = props.userDetails;
@@ -17,7 +18,7 @@ export default function Account(props){
 
     // to show the status of the image upload and to reset the progress status back to zero after a successful upload
     const [progress, setProgress] = useState(0);
-    // to save the download url and set it back to null after uploading it in profile for that particular user
+    // to save the download url, upload it in the db and set it back to null after uploading it in profile for that particular user
     const [imageUrl, setImageurl] = useState("");
     // to indicate that the uploading has started - there is a small delay after 100% upload is finished 
     const [uploadStart, setUploadStart] = useState(false);
@@ -34,6 +35,8 @@ export default function Account(props){
     const [saveButtonDisable, setSaveButtonDisable] = useState(false);
     // to display any issue which may arise in the profile section
     const [errMessage, setErrMessage] = useState(false);
+    // to determine whether to show the project pop up box or not
+    const [showProjectForm, setShowProjectForm] = useState(false);
 
     
     // ------------------------------------------------------------------------------------------
@@ -103,6 +106,9 @@ export default function Account(props){
 
     return isAuth ? (
         <div className={styles.container}>
+            {
+                showProjectForm && <ProjectForm onClose={() => {setShowProjectForm(false)}} />
+            }
             <div className={styles.header}>
                 <p className={styles.heading}>
                     Welcome <span>{userData.name}</span>
@@ -174,6 +180,41 @@ export default function Account(props){
                         {
                             showSaveButton &&  <button className={styles.saveButton} onClick={saveUserDatadb} disabled={saveUserDatadb}>Save Details</button>
                         }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            {/* Project section */}
+            <div className={styles.section}>
+                <div className={styles.projectsHeader}>
+                    <div className={styles.title}>Your Projects</div>
+                        <button className={styles.projectButton} onClick={() => setShowProjectForm(true)}>
+                            Add Project
+                        </button>
+                </div>
+
+                <div className={styles.projects}>
+                    <div className={styles.project}>
+                        <p className={styles.title}>E-Commerce Store</p>
+
+                        <div className={styles.links}>
+                            <Edit2 />
+                            <Trash />
+                            <GitHub />
+                            <Paperclip />
+                        </div>
+                    </div>
+
+                    <div className={styles.project}>
+                        <p className={styles.title}>E-Commerce Store</p>
+
+                        <div className={styles.links}>
+                            <Edit2 />
+                            <Trash />
+                            <GitHub />
+                            <Paperclip />
                         </div>
                     </div>
                 </div>

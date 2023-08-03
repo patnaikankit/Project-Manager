@@ -212,3 +212,17 @@
   .saveButton:hover{
     background-color: #0a754f;
   }
+
+  .projectButton {
+    color: white;
+    background-color: #22c48b;
+    margin: auto;
+    padding: 10px 20px;
+    font-size: medium;
+    border-radius: 8px;
+    margin: 2px;
+  }
+
+  .projectButton:hover{
+    background-color: #0a754f;
+  }
