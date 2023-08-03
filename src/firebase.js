@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getFirestore, setDoc, getDocs, query, where } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import API_KEY from "./apikey.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -96,4 +96,40 @@ const uploadImage = (file, progressCB, downloadUrl, error) => {
   });
 }
 
-export { app as default, auth, db, updateUserDb, getUserDb, uploadImage };
+// saving project data after successful validation
+// while creating a new project we are not going to have unique id
+const addProjectDb = async (project) => {
+  if(typeof project !== "object"){
+    return ;
+  }
+  const collectionRef = collection(db, "projects");
+  await addDoc(collectionRef, {...project});
+};
+
+const updateProjectDb = async (project, pid) => {
+  if(typeof project !== 'object'){
+    return ;
+  }
+  const docRef = doc(db, 'projects', pid);
+  await setDoc(docRef, {...project});
+}
+
+
+const getAllProjects = async () => {
+  return await getDocs(collection(db, "projects"));
+};
+
+// to get all the projects by a user
+const getAllProjectsForUser = async (uid) => {
+  if(!uid){
+    return ;
+  } 
+  const collectionRef = collection(db, "projects");
+  const condition = where("refUser", "==", uid);
+  const dbQuery = query(collectionRef, condition);
+
+  return await getDocs(dbQuery);
+};
+
+
+export { app as default, auth, db, updateUserDb, getUserDb, uploadImage, addProjectDb, updateProjectDb, getAllProjects, getAllProjectsForUser };

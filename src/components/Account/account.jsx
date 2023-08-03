@@ -107,7 +107,7 @@ export default function Account(props){
     return isAuth ? (
         <div className={styles.container}>
             {
-                showProjectForm && <ProjectForm onClose={() => {setShowProjectForm(false)}} />
+                showProjectForm && <ProjectForm onClose={() => {setShowProjectForm(false)}} uid={userDetails.uid}/>
             }
             <div className={styles.header}>
                 <p className={styles.heading}>
