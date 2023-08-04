@@ -3,20 +3,23 @@ import { X } from "react-feather";
 import Modal from "../../Modal/modal.jsx";
 import styles from "./projectform.module.css";
 import Form from "../../InputForm/form.jsx";
-import { uploadImage, addProjectDb } from "../../../firebase.js";
+import { uploadImage, addProjectDb, updateProjectDb } from "../../../firebase.js";
 
 export default function ProjectForm(props){
     const fileTypeInput = useRef();
+    // to confirm if this form is meant for editing
+    const isEdit = props.isEdit ? true : false;
+    const defaults = props.default;
 
     // to save project details
     const [projectData, setProjectData] = useState({
-        thumbnail: "",
-        title: "",
-        overview: "",
-        github: "",
-        link: "",
+        thumbnail: defaults?.thumbnail || "",
+        title: defaults?.title || "",
+        overview: defaults?.overview || "",
+        github: defaults?.github || "",
+        link: defaults?.link || "",
         // input for atleast two points for description is already provided with the choice to adding extra points 
-        points: ["", ""]
+        points: defaults?.points || ["", ""]
     })
 
     // to display any error which may arise in the project form
@@ -82,6 +85,7 @@ export default function ProjectForm(props){
 
     // to validate the user input before uploading it in the db
     const validateData = () => {
+        // to remove empty objects and trailing white spaces
         const actualPoints = projectData.points.filter((item) => item.trim());
 
         let isValid = true;
@@ -121,8 +125,17 @@ export default function ProjectForm(props){
             return ;
         }
         setSubmitButtonDisable(true);
-        await addProjectDb({...projectData, refUser: props.uid});
+        if(isEdit){
+            await updateProjectDb({...projectData, refUser: props.uid}, defaults.pid);
+        }
+        else{
+            await addProjectDb({...projectData, refUser: props.uid});
+        }
         setSubmitButtonDisable(false);
+        // after adding a new project it should be addded in the project without the need for re rendering
+        if(props.onSubmission){
+            props.onSubmission();
+        }
         if(props.onClose){
             props.onClose();
         }

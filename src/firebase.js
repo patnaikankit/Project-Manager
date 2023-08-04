@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, doc, getDoc, getFirestore, setDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getFirestore, setDoc, getDocs, query, where, deleteDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import API_KEY from "./apikey.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -106,6 +106,7 @@ const addProjectDb = async (project) => {
   await addDoc(collectionRef, {...project});
 };
 
+// to update a particular field in a project
 const updateProjectDb = async (project, pid) => {
   if(typeof project !== 'object'){
     return ;
@@ -114,7 +115,7 @@ const updateProjectDb = async (project, pid) => {
   await setDoc(docRef, {...project});
 }
 
-
+// this function will be able to retrive all the projects in the projects collection
 const getAllProjects = async () => {
   return await getDocs(collection(db, "projects"));
 };
@@ -131,5 +132,21 @@ const getAllProjectsForUser = async (uid) => {
   return await getDocs(dbQuery);
 };
 
+// to delete a particular project of a user
+const deleteProject = async (pid) => {
+  const docRef = doc(db, "projects", pid);
+  await deleteDoc(docRef);
+};
 
-export { app as default, auth, db, updateUserDb, getUserDb, uploadImage, addProjectDb, updateProjectDb, getAllProjects, getAllProjectsForUser };
+export { app as default, 
+          auth, 
+          db, 
+          updateUserDb, 
+          getUserDb, 
+          uploadImage, 
+          addProjectDb, 
+          updateProjectDb, 
+          getAllProjects, 
+          getAllProjectsForUser, 
+          deleteProject 
+        };

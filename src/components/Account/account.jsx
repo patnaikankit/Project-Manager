@@ -3,9 +3,11 @@ import styles from "./account.module.css"
 import Form from "../InputForm/form.jsx";
 import { Camera, LogOut, Edit2, Trash, GitHub, Paperclip, Linkedin } from "react-feather";
 import { signOut } from "firebase/auth";
-import { auth, uploadImage, updateUserDb } from "../../firebase";
-import { Navigate } from "react-router-dom";
+import { auth, uploadImage, updateUserDb, getAllProjectsForUser, deleteProject } from "../../firebase";
+import { Link, Navigate } from "react-router-dom";
 import ProjectForm from "./Project-Form/projectform.jsx";
+import { doc } from "firebase/firestore";
+import Spinner from "../Spinner/spinner.jsx";
 
 export default function Account(props){
     const userDetails = props.userDetails;
@@ -19,7 +21,7 @@ export default function Account(props){
     // to show the status of the image upload and to reset the progress status back to zero after a successful upload
     const [progress, setProgress] = useState(0);
     // to save the download url, upload it in the db and set it back to null after uploading it in profile for that particular user
-    const [imageUrl, setImageurl] = useState("");
+    const [imageUrl, setImageurl] = useState(userDetails.profileImage || "");
     // to indicate that the uploading has started - there is a small delay after 100% upload is finished 
     const [uploadStart, setUploadStart] = useState(false);
     // to store the user data in the form and as well as show it them if they are already filled
@@ -37,6 +39,14 @@ export default function Account(props){
     const [errMessage, setErrMessage] = useState(false);
     // to determine whether to show the project pop up box or not
     const [showProjectForm, setShowProjectForm] = useState(false);
+    // to check if all the projects are loaded or not
+    const [projectLoaded, setProjectLoaded] = useState(false);
+    // to store all the projects in the profile
+    const [projects, setProjects] = useState([]);
+    // to signify that project form is opened to edit a project or not - the same form format is used for adding and editing a project
+    const [editProjectModal, setEditProjectModal] = useState(false);
+    // to handle the data while editing a project
+    const [editProject, setEditProject] = useState({});
 
     
     // ------------------------------------------------------------------------------------------
@@ -103,11 +113,50 @@ export default function Account(props){
         setShowSaveButton(false);
     }
 
+    // fetching all the projects made by users
+    const fetchAllProjects = async() => {
+        const result = await getAllProjectsForUser(userDetails.uid);
+        if(!result){
+            setProjectLoaded(true);
+            return true;
+        }
+        setProjectLoaded(true);
+        let tempProjects = [];
+        result.forEach((doc) => {
+            // passing the project id as well so that the projects details can be altered as well
+            tempProjects.push({...doc.data(), pid: doc.id});
+        })
+        setProjects(tempProjects);
+    }
+
+    // will be used to make changes in project
+    const handleEditClick = (project) => {
+        setEditProjectModal(true);
+        setEditProject(project);
+        setShowProjectForm(true);
+    }
+
+    // to delete a project
+    const handleDeletion = async (pid) => {
+        await deleteProject(pid);
+        fetchAllProjects();
+    }
+
+    useEffect(() => {
+        fetchAllProjects()
+    }, [])
+
 
     return isAuth ? (
         <div className={styles.container}>
             {
-                showProjectForm && <ProjectForm onClose={() => {setShowProjectForm(false)}} uid={userDetails.uid}/>
+                showProjectForm && <ProjectForm 
+                                        onSubmission={fetchAllProjects()} 
+                                        onClose={() => {setShowProjectForm(false)}} 
+                                        uid={userDetails.uid} 
+                                        isEdit={editProjectModal}
+                                        default={editProject}
+                                        /> 
             }
             <div className={styles.header}>
                 <p className={styles.heading}>
@@ -196,27 +245,34 @@ export default function Account(props){
                 </div>
 
                 <div className={styles.projects}>
-                    <div className={styles.project}>
-                        <p className={styles.title}>E-Commerce Store</p>
+                {projectLoaded ? (
+                    projects.length > 0 ? (
+                    projects.map((item, index) => (
+                        <div className={styles.project} key={item.title + index}>
+                        <p className={styles.title}>{item.title}</p>
 
                         <div className={styles.links}>
-                            <Edit2 />
-                            <Trash />
+                            <Edit2 onClick={() => handleEditClick(item)} />
+                            <Trash onClick={() => handleDeletion(item.pid)} />
+                            <Link target="_blank" to={`//${item.github}`}>
                             <GitHub />
-                            <Paperclip />
+                            </Link>
+                            {item.link ? (
+                            <Link target="_blank" to={`//${item.link}`}>
+                                <Paperclip />
+                            </Link>
+                            ) : (
+                            ""
+                            )}
                         </div>
-                    </div>
-
-                    <div className={styles.project}>
-                        <p className={styles.title}>E-Commerce Store</p>
-
-                        <div className={styles.links}>
-                            <Edit2 />
-                            <Trash />
-                            <GitHub />
-                            <Paperclip />
                         </div>
-                    </div>
+                    ))
+                    ) : (
+                    <p>No projects found</p>
+                    )
+                ) : (
+                    <Spinner />
+                )}
                 </div>
             </div>
         </div>
