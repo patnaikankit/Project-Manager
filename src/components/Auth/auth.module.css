@@ -32,13 +32,15 @@
     color: #fff;
     font-weight: bold;
     cursor: pointer;
-    font-size: 17px;
+    font-size: 15px;
     text-decoration: none;
+    font-family: 'Roboto', sans-serif;
   }
   
   .form .heading {
     font-weight: bold;
     font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .form button {
@@ -72,18 +74,20 @@
   }
   
   .form .error {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: #f12929;
     width: 100%;
     text-align: center;
+    font-family: 'Roboto', sans-serif;
   }
   
   .form .bottom p {
     width: 100%;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    font-family: 'Roboto', sans-serif;
   }
   
   .bottom p a {

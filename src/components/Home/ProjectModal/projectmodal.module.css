@@ -2,7 +2,7 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     min-width: 650px;
   }
   
@@ -58,11 +58,13 @@
   .right .title {
     font-weight: 500;
     font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
   }
   
   .right .overview {
     font-size: 1rem;
     color: darkgray;
+    font-family: 'Poppins', sans-serif;
   }
   
   .right ul {
@@ -75,4 +77,5 @@
   .right ul li {
     font-size: 1rem;
     color: darkslategray;
+    font-family: 'Poppins', sans-serif;
   }

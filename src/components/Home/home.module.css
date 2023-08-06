@@ -25,12 +25,14 @@
   font-weight: bold;
   color: #22c48b;
   font-size: 3rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .left .tagline {
   font-weight: 500;
   font-size: 2rem;
-  line-height: 2.9rem;
+  line-height: 2.5rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .left button {
@@ -76,6 +78,7 @@
 .body .title {
   font-weight: bold;
   font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .body .projects {
@@ -90,7 +93,7 @@ flex-wrap:wrap;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 4px 9px 1px black;
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import icon from '../../assets/designer.svg'
 import Spinner from '../Spinner/spinner.jsx';
 import { getAllProjects } from '../../firebase';
-import ProjectModal from './ProjectModal/ProjectModal.jsx';
+import ProjectModal from './ProjectModal/projectmodal.jsx';
 
 export default function Home(props){
     const navigate = useNavigate();
