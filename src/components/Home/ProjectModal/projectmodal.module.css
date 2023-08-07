@@ -2,7 +2,7 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 35px;
     min-width: 650px;
   }
   
@@ -51,7 +51,7 @@
   .left .links svg {
     height: 22px;
     width: 22px;
-    color: #22c48b;
+    color: #3269c9;
     cursor: pointer;
   }
   

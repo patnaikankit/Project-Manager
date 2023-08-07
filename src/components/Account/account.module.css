@@ -6,11 +6,11 @@
   
   .header {
     width: 100%;
-    background-color: #e2fff5;
+    background-color: rgb(179, 233, 255);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: -2px 3px;
+    padding: 35px 3px;
   }
   
   .header .heading {
@@ -21,7 +21,7 @@
   }
   
   .header .heading span {
-    color: #22c48b;
+    color: #4477CE;
     font-size: 2.7;
     text-transform: capitalize;
   }
@@ -50,7 +50,7 @@
   
   .header .logout:hover,
   .header .logout:hover svg {
-    color: #22c48b;
+    color: #3f76d5;
   }
   
   .container .section {
@@ -122,7 +122,7 @@
   .profile .left .image .camera svg {
     height: 22px;
     width: 22px;
-    color: #22c48b;
+    color: #4477CE;
   }
   
   .profile .right {
@@ -207,7 +207,7 @@
 
   .saveButton {
     color: white;
-    background-color: #22c48b;
+    background-color: #4477CE;
     margin: auto;
     padding: 10px 20px;
     font-size: medium;
@@ -216,12 +216,12 @@
   }
 
   .saveButton:hover{
-    background-color: #0a754f;
+    background-color: #2252a5;
   }
 
   .projectButton {
     color: white;
-    background-color: #22c48b;
+    background-color: #4477CE;
     margin: auto;
     padding: 10px 20px;
     font-size: medium;
@@ -230,5 +230,5 @@
   }
 
   .projectButton:hover{
-    background-color: #0a754f;
+    background-color: #2252a5;
   }

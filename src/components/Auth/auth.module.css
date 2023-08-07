@@ -2,7 +2,7 @@
     min-height: 100vh;
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right bottom, #22c48b, #54f0b9);
+    background-image: linear-gradient(to right top, #00d2da, #00b8f5, #0098ff, #006eff, #0011ff);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,7 @@
   .homelink {
     position: absolute;
     left: 0%;
-    top: -40px;
+    top: -20px;
   }
   
   .homelink a {
@@ -47,7 +47,7 @@
     border: none;
     outline: none;
     padding: 8px 16px;
-    background-color: #22c48b;
+    background-color: rgb(116, 215, 255);
     color: #fff;
     border-radius: 5px;
     width: 100%;
@@ -62,7 +62,7 @@
   }
   
   .form button:hover {
-    background-color: #33e4a6;
+    background-color: rgb(27, 190, 255);
   }
   
   .form button:active {
@@ -91,7 +91,7 @@
   }
   
   .bottom p a {
-    color: #22c48b;
+    color: rgb(55, 198, 255);
     font-weight: 600;
     text-decoration: underline;
     cursor: pointer;

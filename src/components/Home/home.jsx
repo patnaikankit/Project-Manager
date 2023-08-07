@@ -6,10 +6,12 @@ import icon from '../../assets/designer.svg'
 import Spinner from '../Spinner/spinner.jsx';
 import { getAllProjects } from '../../firebase';
 import ProjectModal from './ProjectModal/projectmodal.jsx';
+import Footer from '../Footer/footer.jsx';
 
 export default function Home(props){
     const navigate = useNavigate();
     const isAuth = props.auth ?  true : false; 
+    // const userData = props.userData;
 
     // to check if the project is loaded or not
     const [projectLoaded, setProjectLoaded] = useState(false);
@@ -57,13 +59,22 @@ export default function Home(props){
     return (
     <div className={styles.container}>
         {showProjectModal && (<ProjectModal onClose={() => setShowProjectModal(false)} details={projectDetails}/>)}
+        {/* {isAuth && <div className={styles.header}>
+                <p className={styles.heading}>
+                    Welcome <span>{userData.name}</span>
+                </p>
+
+                <div className={styles.logout} onClick={handleLogout}>
+                    <LogOut /> Logout
+                </div>
+            </div>} */}
         <div className={styles.headers}>
             <div className={styles.left}>
                 <p className={styles.heading}>
                     Project Manager
                 </p>
                 <p className={styles.tagline}>
-                    One stop solution for all software development projects!
+                    One stop solution for managing your software development projects!
                 </p>
                 <button onClick={handleClick}>{isAuth ? "Manage your Projects" : "Let's Get Started!"}{" "}
             <ArrowRight />{" "}</button>
@@ -73,7 +84,7 @@ export default function Home(props){
             </div>
         </div>
 
-        <div className={styles.body}>
+        { isAuth && <div className={styles.body}>
         <p className={styles.title}>All Projects</p>
         <div className={styles.projects}>
         {projectLoaded ? (
@@ -103,7 +114,8 @@ export default function Home(props){
             <Spinner />
           )}
         </div>
-      </div>
+      </div>}
+      {/* <Footer /> */}
     </div>
     );
 }

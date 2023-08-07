@@ -69,7 +69,7 @@
   }
   
   .description .link {
-    color: #22c48b;
+    color: #2252a5;
     font-weight: bold;
     font-size: 0.875rem;
     cursor: pointer;
@@ -119,7 +119,7 @@
 
   .submitButton {
     color: white;
-    background-color: #22c48b;
+    background-color: #4477CE;
     margin: auto;
     padding: 4px 9px;
     font-size: medium;
@@ -127,7 +127,7 @@
   }
 
   .submitButton:hover{
-    background-color: #0a754f;
+    background-color: #2252a5;
   }
 
   .submitButton:disabled {
