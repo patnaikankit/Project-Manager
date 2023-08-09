@@ -4,7 +4,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, doc, getDoc, getFirestore, setDoc, getDocs, query, where, deleteDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
-import API_KEY from "./apikey.js";
+const API_KEY = process.env.API_KEY;
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
