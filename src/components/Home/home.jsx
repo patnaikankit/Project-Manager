@@ -71,7 +71,7 @@ export default function Home(props){
         <div className={styles.headers}>
             <div className={styles.left}>
                 <p className={styles.heading}>
-                    Project Manager
+                    ProjectHub
                 </p>
                 <p className={styles.tagline}>
                     One stop solution for managing your software development projects!
